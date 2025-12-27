@@ -1,0 +1,813 @@
+
+
+Create a complete HTML assessment application with the following specifications: ASSESSMENT DETAILS: - Assessment Name: "Career category selector" - Description: "develop an assessment based on the following logic: Structure Overview The tree uses 3-4 levels of yes/no questions: • Level 1: F
+
+pasted
+
+10:40 AM
+
+Architected interactive career assessment with branching logic.
+13s
+
+
+
+I'll create a complete HTML assessment application that implements the career category selector with the branching decision tree logic. This will be a dynamic, mobile-responsive single-page application.
+
+
+4 steps
+
+Presented file
+
+The user prompt is empty, so I cannot provide a summary.
+
+I've created your Career Category Selector assessment application. Here's what's included:
+
+Key Features:
+
+Branching Decision Tree Logic - Implements the exact yes/no question flow you specified with 18 questions leading to 12 career categories
+Mobile-Responsive Design - Fully optimized for phones, tablets, and desktop
+WordPress Compatible - Single HTML file that can be embedded anywhere
+Your Exact Color Scheme - Background (
+#2328cd), text (
+#eef20d), buttons (
+#051b57)
+User Experience:
+
+Name collection at start
+Progressive question display with visual progress bar
+Smooth animations and transitions
+One question at a time based on previous answers
+Comprehensive results showing:
+Primary career category
+Detailed description
+Recommended career paths
+Key skills needed
+Alternative categories to consider
+12 Career Categories Covered:
+
+Technology & Digital
+Creative & Media
+Business & Entrepreneurship
+Healthcare & Wellness
+Education & Training
+Engineering & Manufacturing
+Finance & Professional Services
+Social Impact & Public Service
+Hospitality & Tourism
+Trades & Skilled Services
+Science & Research
+Transport & Logistics
+The application is ready to use - simply open the HTML file in any browser or embed it in your WordPress site!
+
+Career category selector
+Code · HTML 
+
+
+
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+
+
+Career category selector · HTML
+Copy
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Category Selector</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #2328cd;
+            color: #eef20d;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(5, 27, 87, 0.3);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #eef20d;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #051b57;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #051b57;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #eef20d;
+            box-shadow: 0 0 10px rgba(238, 242, 13, 0.3);
+        }
+
+        .question-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .question-number {
+            display: inline-block;
+            background-color: #051b57;
+            color: #eef20d;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            background-color: #051b57;
+            color: #eef20d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #0a2d8f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background-color: rgba(238, 242, 13, 0.2);
+            border: 2px solid #eef20d;
+        }
+
+        button.secondary:hover {
+            background-color: rgba(238, 242, 13, 0.3);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #eef20d;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .result-card {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-category {
+            font-size: 2em;
+            font-weight: bold;
+            color: #eef20d;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .result-description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .result-details {
+            background-color: rgba(5, 27, 87, 0.4);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .result-details h3 {
+            color: #eef20d;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .result-details ul {
+            list-style-position: inside;
+            margin-left: 10px;
+        }
+
+        .result-details li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .user-info {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: rgba(5, 27, 87, 0.3);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .question-text {
+                font-size: 1.1em;
+            }
+
+            button {
+                min-width: 100px;
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+
+            .result-category {
+                font-size: 1.5em;
+            }
+        }
+
+        .alternatives {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(238, 242, 13, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #eef20d;
+        }
+
+        .alternatives h4 {
+            color: #eef20d;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="screen active">
+            <h1>Career Category Selector</h1>
+            <p class="subtitle">Discover your ideal career path through personalized assessment</p>
+            
+            <div class="input-group">
+                <label for="userName">Your Name *</label>
+                <input type="text" id="userName" placeholder="Enter your full name" required>
+            </div>
+
+            <button onclick="startAssessment()">Begin Assessment</button>
+        </div>
+
+        <!-- Question Screen -->
+        <div id="questionScreen" class="screen">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-number" id="questionNumber"></div>
+                <div class="question-text" id="questionText"></div>
+                <div class="button-group" id="answerButtons"></div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="screen">
+            <h1>Your Career Category</h1>
+            
+            <div class="user-info" id="userInfo"></div>
+
+            <div class="result-card">
+                <div class="result-header">
+                    <div class="result-category" id="resultCategory"></div>
+                </div>
+                <div class="result-description" id="resultDescription"></div>
+                <div class="result-details" id="resultDetails"></div>
+                <div class="alternatives" id="alternativeCategories"></div>
+            </div>
+
+            <button onclick="restartAssessment()">Take Assessment Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Career Categories Data
+        const categories = {
+            1: {
+                name: "TECHNOLOGY & DIGITAL",
+                description: "You thrive in the digital realm, creating innovative solutions through software, apps, and digital systems. Your analytical mind combined with creative problem-solving makes you ideal for building the technologies that shape our future.",
+                careers: [
+                    "Software Developer/Engineer",
+                    "Web Developer",
+                    "Mobile App Developer",
+                    "UX/UI Designer",
+                    "Digital Product Manager",
+                    "Systems Architect",
+                    "Cloud Solutions Engineer",
+                    "AI/Machine Learning Specialist"
+                ],
+                skills: ["Programming", "Problem-solving", "Digital design", "Systems thinking", "Innovation"],
+                alternatives: ["Creative & Media", "Engineering & Manufacturing"]
+            },
+            2: {
+                name: "CREATIVE & MEDIA",
+                description: "Your creativity finds expression through visual arts, storytelling, and media. You have a unique ability to communicate ideas and emotions through creative mediums, bringing imagination to life in tangible ways.",
+                careers: [
+                    "Graphic Designer",
+                    "Content Creator",
+                    "Video Producer",
+                    "Copywriter",
+                    "Digital Marketing Specialist",
+                    "Brand Strategist",
+                    "Photographer/Videographer",
+                    "Social Media Manager"
+                ],
+                skills: ["Visual design", "Storytelling", "Communication", "Creativity", "Digital media"],
+                alternatives: ["Technology & Digital", "Business & Entrepreneurship"]
+            },
+            3: {
+                name: "BUSINESS & ENTREPRENEURSHIP",
+                description: "You're driven by commercial success and business growth. Your ability to spot opportunities, lead teams, and drive results makes you a natural entrepreneur or business leader.",
+                careers: [
+                    "Entrepreneur",
+                    "Business Development Manager",
+                    "Sales Director",
+                    "Marketing Manager",
+                    "General Manager",
+                    "Startup Founder",
+                    "Business Consultant",
+                    "Account Executive"
+                ],
+                skills: ["Leadership", "Strategic thinking", "Sales", "Negotiation", "Business acumen"],
+                alternatives: ["Finance & Professional Services", "Hospitality & Tourism"]
+            },
+            4: {
+                name: "HEALTHCARE & WELLNESS",
+                description: "Your passion lies in promoting health and wellbeing. Whether physical or mental health, you're committed to helping people live healthier, happier lives through care and support.",
+                careers: [
+                    "Medical Doctor",
+                    "Nurse/Nursing Specialist",
+                    "Psychologist/Therapist",
+                    "Physiotherapist",
+                    "Occupational Therapist",
+                    "Mental Health Counselor",
+                    "Nutritionist/Dietitian",
+                    "Healthcare Administrator"
+                ],
+                skills: ["Empathy", "Medical knowledge", "Patient care", "Communication", "Problem-solving"],
+                alternatives: ["Education & Training", "Social Impact & Public Service"]
+            },
+            5: {
+                name: "EDUCATION & TRAINING",
+                description: "You're passionate about developing others' knowledge and skills. Your ability to explain complex concepts and inspire learning makes you an effective educator and mentor.",
+                careers: [
+                    "Teacher/Educator",
+                    "Corporate Trainer",
+                    "Academic Lecturer",
+                    "Educational Consultant",
+                    "Curriculum Developer",
+                    "Learning & Development Specialist",
+                    "Education Technology Specialist",
+                    "Career Coach"
+                ],
+                skills: ["Teaching", "Communication", "Patience", "Curriculum design", "Mentoring"],
+                alternatives: ["Healthcare & Wellness", "Social Impact & Public Service"]
+            },
+            6: {
+                name: "ENGINEERING & MANUFACTURING",
+                description: "You excel at creating tangible solutions through engineering and manufacturing. Your systematic approach to problem-solving results in physical products, structures, and systems that improve our world.",
+                careers: [
+                    "Mechanical Engineer",
+                    "Civil Engineer",
+                    "Electrical Engineer",
+                    "Industrial Engineer",
+                    "Manufacturing Manager",
+                    "Quality Assurance Engineer",
+                    "Production Manager",
+                    "Process Engineer"
+                ],
+                skills: ["Technical knowledge", "Problem-solving", "Project management", "Quality control", "Innovation"],
+                alternatives: ["Technology & Digital", "Transport & Logistics"]
+            },
+            7: {
+                name: "FINANCE & PROFESSIONAL SERVICES",
+                description: "You have a strong affinity for numbers, financial analysis, and professional advisory services. Your analytical skills help individuals and organizations make sound financial decisions.",
+                careers: [
+                    "Financial Analyst",
+                    "Accountant/CPA",
+                    "Investment Banker",
+                    "Financial Advisor",
+                    "Tax Consultant",
+                    "Auditor",
+                    "Management Consultant",
+                    "Corporate Finance Manager"
+                ],
+                skills: ["Financial analysis", "Attention to detail", "Strategic thinking", "Compliance", "Communication"],
+                alternatives: ["Business & Entrepreneurship", "Science & Research"]
+            },
+            8: {
+                name: "SOCIAL IMPACT & PUBLIC SERVICE",
+                description: "You're driven by a desire to create positive social change and serve the public good. Your work focuses on improving communities and addressing societal challenges.",
+                careers: [
+                    "Social Worker",
+                    "Community Development Officer",
+                    "Non-Profit Manager",
+                    "Public Policy Analyst",
+                    "Human Rights Advocate",
+                    "Urban Planner",
+                    "Government Relations Specialist",
+                    "Environmental Activist"
+                ],
+                skills: ["Advocacy", "Community engagement", "Policy analysis", "Empathy", "Project management"],
+                alternatives: ["Education & Training", "Healthcare & Wellness"]
+            },
+            9: {
+                name: "HOSPITALITY & TOURISM",
+                description: "You create memorable experiences for guests and travelers. Your people skills and attention to detail ensure customers have exceptional experiences in hospitality and tourism settings.",
+                careers: [
+                    "Hotel Manager",
+                    "Event Planner",
+                    "Restaurant Manager",
+                    "Tourism Consultant",
+                    "Travel Agent",
+                    "Guest Relations Manager",
+                    "Catering Manager",
+                    "Destination Marketing Specialist"
+                ],
+                skills: ["Customer service", "Event management", "Communication", "Cultural awareness", "Operations"],
+                alternatives: ["Business & Entrepreneurship", "Trades & Skilled Services"]
+            },
+            10: {
+                name: "TRADES & SKILLED SERVICES",
+                description: "You excel at hands-on work, developing specialized craft skills with tools and materials. Your technical expertise and practical skills create tangible results and solutions.",
+                careers: [
+                    "Electrician",
+                    "Plumber",
+                    "Carpenter",
+                    "HVAC Technician",
+                    "Auto Mechanic",
+                    "Welder",
+                    "Construction Manager",
+                    "Craftsperson/Artisan"
+                ],
+                skills: ["Technical skills", "Manual dexterity", "Problem-solving", "Attention to detail", "Safety awareness"],
+                alternatives: ["Engineering & Manufacturing", "Hospitality & Tourism"]
+            },
+            11: {
+                name: "SCIENCE & RESEARCH",
+                description: "You're driven by curiosity and the pursuit of knowledge. Your analytical mind and systematic approach make you ideal for scientific research and discovery.",
+                careers: [
+                    "Research Scientist",
+                    "Laboratory Technician",
+                    "Biotechnology Specialist",
+                    "Environmental Scientist",
+                    "Data Scientist",
+                    "Research Analyst",
+                    "Clinical Research Coordinator",
+                    "Academic Researcher"
+                ],
+                skills: ["Research methods", "Critical thinking", "Data analysis", "Scientific writing", "Experimentation"],
+                alternatives: ["Technology & Digital", "Healthcare & Wellness"]
+            },
+            12: {
+                name: "TRANSPORT & LOGISTICS",
+                description: "You excel at moving things and people efficiently. Your organizational skills and understanding of complex systems make you ideal for managing transportation and logistics operations.",
+                careers: [
+                    "Logistics Manager",
+                    "Supply Chain Analyst",
+                    "Transportation Coordinator",
+                    "Warehouse Manager",
+                    "Freight Manager",
+                    "Operations Manager",
+                    "Distribution Manager",
+                    "Import/Export Specialist"
+                ],
+                skills: ["Operations management", "Organization", "Problem-solving", "Planning", "Communication"],
+                alternatives: ["Engineering & Manufacturing", "Business & Entrepreneurship"]
+            }
+        };
+
+        // Question Tree Structure
+        const questionTree = {
+            Q1: {
+                number: 1,
+                text: "Do you prefer working primarily with IDEAS and INFORMATION rather than directly with PEOPLE or PHYSICAL THINGS?",
+                yes: "Q3",
+                no: "Q2"
+            },
+            Q2: {
+                number: 2,
+                text: "Do you prefer working directly with PEOPLE and their needs rather than with PHYSICAL THINGS and materials?",
+                yes: "Q9",
+                no: "Q15"
+            },
+            Q3: {
+                number: 3,
+                text: "Do you prefer CREATIVE and ORIGINAL work over STRUCTURED and SYSTEMATIC work?",
+                yes: "Q4",
+                no: "Q6"
+            },
+            Q4: {
+                number: 4,
+                text: "Does your creativity express itself primarily through VISUAL or STORYTELLING mediums?",
+                yes: 2,
+                no: "Q5"
+            },
+            Q5: {
+                number: 5,
+                text: "Do you enjoy BUILDING or DESIGNING digital products, apps, or systems?",
+                yes: 1,
+                no: 11
+            },
+            Q6: {
+                number: 6,
+                text: "Do you prefer working with NUMBERS and FINANCIAL data over SCIENTIFIC or TECHNICAL data?",
+                yes: 7,
+                no: "Q7"
+            },
+            Q7: {
+                number: 7,
+                text: "Does your work need to result in TANGIBLE PHYSICAL SOLUTIONS (buildings, products, systems)?",
+                yes: 6,
+                no: "Q8"
+            },
+            Q8: {
+                number: 8,
+                text: "Are you primarily interested in TECHNOLOGY and DIGITAL systems?",
+                yes: 1,
+                no: 11
+            },
+            Q9: {
+                number: 9,
+                text: "Is your primary motivation to HELP, HEAL, or SUPPORT people's wellbeing?",
+                yes: "Q10",
+                no: "Q12"
+            },
+            Q10: {
+                number: 10,
+                text: "Do you want to work primarily with PHYSICAL or MENTAL health?",
+                yes: 4,
+                no: "Q11"
+            },
+            Q11: {
+                number: 11,
+                text: "Is your focus on TEACHING and developing people's knowledge and skills?",
+                yes: 5,
+                no: 8
+            },
+            Q12: {
+                number: 12,
+                text: "Are you primarily motivated by COMMERCIAL success and business results?",
+                yes: 3,
+                no: "Q13"
+            },
+            Q13: {
+                number: 13,
+                text: "Do you want to create MEMORABLE EXPERIENCES for guests and customers?",
+                yes: 9,
+                no: "Q14"
+            },
+            Q14: {
+                number: 14,
+                text: "Do you prefer TEACHING and developing others over selling or managing?",
+                yes: 5,
+                no: 3
+            },
+            Q15: {
+                number: 15,
+                text: "Do you prefer working with COMPLEX SYSTEMS and INFRASTRUCTURE over individual products or services?",
+                yes: "Q16",
+                no: "Q17"
+            },
+            Q16: {
+                number: 16,
+                text: "Is your primary interest in MOVING things and people efficiently?",
+                yes: 12,
+                no: 6
+            },
+            Q17: {
+                number: 17,
+                text: "Do you want to develop SPECIALIZED CRAFT SKILLS with tools and materials?",
+                yes: 10,
+                no: "Q18"
+            },
+            Q18: {
+                number: 18,
+                text: "Does your work centre on creating EXPERIENCES for people?",
+                yes: 9,
+                no: 10
+            }
+        };
+
+        // State Management
+        let currentQuestion = "Q1";
+        let userName = "";
+        let questionPath = [];
+
+        function startAssessment() {
+            userName = document.getElementById("userName").value.trim();
+            
+            if (!userName) {
+                alert("Please enter your name to begin the assessment.");
+                return;
+            }
+
+            showScreen("questionScreen");
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const question = questionTree[currentQuestion];
+            
+            document.getElementById("questionNumber").textContent = `Question ${question.number} of 18`;
+            document.getElementById("questionText").textContent = question.text;
+            
+            // Update progress bar
+            const progress = (question.number / 18) * 100;
+            document.getElementById("progressFill").style.width = progress + "%";
+            
+            // Create answer buttons
+            const buttonsContainer = document.getElementById("answerButtons");
+            buttonsContainer.innerHTML = `
+                <button onclick="handleAnswer(true)">YES</button>
+                <button onclick="handleAnswer(false)">NO</button>
+            `;
+        }
+
+        function handleAnswer(answer) {
+            const question = questionTree[currentQuestion];
+            questionPath.push({
+                question: currentQuestion,
+                number: question.number,
+                text: question.text,
+                answer: answer ? "Yes" : "No"
+            });
+
+            const nextStep = answer ? question.yes : question.no;
+
+            if (typeof nextStep === "number") {
+                // We've reached a category
+                showResults(nextStep);
+            } else {
+                // Move to next question
+                currentQuestion = nextStep;
+                displayQuestion();
+            }
+        }
+
+        function showResults(categoryId) {
+            const category = categories[categoryId];
+            
+            document.getElementById("userInfo").textContent = `Assessment Results for ${userName}`;
+            document.getElementById("resultCategory").textContent = category.name;
+            document.getElementById("resultDescription").textContent = category.description;
+            
+            // Display career options
+            let careersHTML = "<h3>Recommended Career Paths:</h3><ul>";
+            category.careers.forEach(career => {
+                careersHTML += `<li>${career}</li>`;
+            });
+            careersHTML += "</ul>";
+            
+            careersHTML += "<h3 style='margin-top: 20px;'>Key Skills for Success:</h3><ul>";
+            category.skills.forEach(skill => {
+                careersHTML += `<li>${skill}</li>`;
+            });
+            careersHTML += "</ul>";
+            
+            document.getElementById("resultDetails").innerHTML = careersHTML;
+            
+            // Display alternative categories
+            let alternativesHTML = "<h4>You may also consider:</h4><p>";
+            alternativesHTML += category.alternatives.join(" • ");
+            alternativesHTML += "</p>";
+            document.getElementById("alternativeCategories").innerHTML = alternativesHTML;
+            
+            showScreen("resultsScreen");
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll(".screen").forEach(screen => {
+                screen.classList.remove("active");
+            });
+            document.getElementById(screenId).classList.add("active");
+        }
+
+        function restartAssessment() {
+            currentQuestion = "Q1";
+            questionPath = [];
+            userName = "";
+            document.getElementById("userName").value = "";
+            showScreen("welcomeScreen");
+        }
+
+        // Initialize
+        window.onload = function() {
+            showScreen("welcomeScreen");
+        };
+    </script>
+</body>
+</html>
